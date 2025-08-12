@@ -19,9 +19,9 @@ export const createStatus = async (req, res) => {
                 return response(res, 400, 'Failed to save file');
             }
             mediaUrl = uploadFile.secure_url;
-            if (file.mimeType.startWith('image')) {
+            if (file.mimeType.startsWith('image')) {
                 finalContentType = 'image';
-            } else if (file.mimeType.startWith('video')) {
+            } else if (file.mimeType.startsWith('video')) {
                 finalContentType = 'video'
             } else {
                 return response(res, 400, 'Unsopported file type');

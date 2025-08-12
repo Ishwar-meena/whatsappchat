@@ -4,6 +4,7 @@ import useThemeStore from '../../store/themeStore';
 import useUserStore from '../../store/useUserStore';
 import { FaPlus, FaSearch } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import {format} from 'timeago.js';
 
 const ChatList = ({ contacts }) => {
   const selectedContact = useLayoutStore((state) => state.selectedContact);
@@ -68,7 +69,7 @@ const ChatList = ({ contacts }) => {
                   </h2>
                   {contact?.conversation && (
                     <span className={`text-xs ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
-                      {contact?.conversation?.lastMessage?.createdAt}
+                      {format(contact?.conversation?.lastMessage?.createdAt)}
                     </span>
                   )}
                 </div>
@@ -76,8 +77,8 @@ const ChatList = ({ contacts }) => {
                   <p className={`text-sm ${theme==='dark'?'text-gray-400':'text-gray-500'} truncate`}>
                     {contact?.conversation?.lastMessage?.content}
                   </p>
-                  {contact?.conversation && contact?.conversation?.unreadCount > 0 && contact?.conversation?.lastMessage?.receiver === user?._id && (
-                    <p className={`text-sm  font-semibold w-6 h-6 flex items-center justify-center bg-yellow-500  ${theme==='dark'?'text-gray-800':'text-gray-500'} rounded-full `}>
+                  {contact?.conversation && contact?.conversation?.unreadCount > 0 && contact?.conversation?.lastMessage?.receiver === user?._id  && (
+                    <p className={`text-sm  font-semibold w-6 h-6 flex items-center justify-center bg-yellow-400  ${theme==='dark'?'text-gray-800':'text-gray-100'} rounded-full `}>
                       {contact?.conversation?.unreadCount}
                     </p>
                   )}

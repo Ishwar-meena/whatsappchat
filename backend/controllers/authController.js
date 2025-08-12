@@ -28,7 +28,7 @@ export const sendOTP = async (req, res) => {
         if (!phoneNumber || !phoneNumberSuffix) {
             return response(res, 400, 'Phone number and suffix are required');
         }
-        const fullNumber = `+${phoneNumberSuffix}${phoneNumber}`;
+        const fullNumber = `${phoneNumberSuffix}${phoneNumber}`;
         user = await User.findOne({ phoneNumber });
         if (!user) {
             user = new User({ phoneNumber, phoneNumberSuffix });
@@ -94,9 +94,13 @@ export const verifyOTP = async (req, res) => {
 export const updateProfile = async (req, res) => {
     const { username, agreed, about } = req.body;
     const userId = req.user.userId;
+    const file = req.file;
     try {
         let user = await User.findById(userId);
-        const file = req.file;
+        if(!user){
+            return response(res,404,'user not exist');
+        }
+        console.log("this is file data ",file);
         if (file) {
             const uploadResult = await uploadFileToCloudinary(file);
             console.log('this is secure url : ', uploadResult.secure_url);
@@ -104,9 +108,9 @@ export const updateProfile = async (req, res) => {
         } else if (req.body.profilePicture) {
             user.avatar = req.body.profilePicture;
         }
-        if (username) user.username = username;
+        if (username?.trim()) user.username = username;
         if (agreed) user.isAgreed = agreed;
-        if (about) user.about = about;
+        if (about?.trim()) user.about = about;
         await user.save();
         return response(res, 200, 'Profile updated successfully', user);
     } catch (error) {

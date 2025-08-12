@@ -23,6 +23,7 @@ const Sidebar = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, [])
 
+
   useEffect(() => {
     if (location.pathname === '/') {
       setActiveTab('chats');
